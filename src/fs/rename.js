@@ -11,11 +11,13 @@ const newFile = dirname + '/files/properFilename.md';
 const rename = async () => {
     fs.access(oldFile, fs.constants.F_OK).then(() => {
         fs.access(newFile, fs.constants.F_OK).then(() => {
-            console.error('FS operation failed');
+            throw new Error('FS operation failed');
         }).catch(() => {
             fs.rename(oldFile, newFile);
         })
-    }).catch(err => console.error('FS operation failed'))
+    }).catch(() => {
+        throw new Error('FS operation failed');
+    })
 };
 
 await rename();
